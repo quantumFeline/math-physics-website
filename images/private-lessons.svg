@@ -1,0 +1,31 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradPrivate" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9a9e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fad0c4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#gradPrivate)" rx="15"/>
+
+  <!-- Teacher/person icon -->
+  <g transform="translate(200, 150)">
+    <!-- Head -->
+    <circle cx="0" cy="-30" r="25" fill="white" opacity="0.95"/>
+
+    <!-- Body -->
+    <path d="M -35,0 Q -35,-10 -25,-15 L 25,-15 Q 35,-10 35,0 L 35,50 Q 35,55 30,55 L -30,55 Q -35,55 -35,50 Z" fill="white" opacity="0.95"/>
+
+    <!-- Arms -->
+    <rect x="-60" y="-5" width="25" height="15" fill="white" opacity="0.9" rx="7"/>
+    <rect x="35" y="-5" width="25" height="15" fill="white" opacity="0.9" rx="7"/>
+
+    <!-- Book in hand -->
+    <rect x="50" y="-10" width="20" height="25" fill="rgba(255, 154, 158, 0.6)" rx="2"/>
+    <line x1="52" y1="-5" x2="68" y2="-5" stroke="white" stroke-width="1.5" opacity="0.7"/>
+    <line x1="52" y1="0" x2="68" y2="0" stroke="white" stroke-width="1.5" opacity="0.7"/>
+    <line x1="52" y1="5" x2="68" y2="5" stroke="white" stroke-width="1.5" opacity="0.7"/>
+
+    <!-- Pointer/pen in other hand -->
+    <line x1="-50" y1="0" x2="-75" y2="-15" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+  </g>
+</svg>
