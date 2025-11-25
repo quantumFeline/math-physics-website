@@ -40,10 +40,21 @@
         elements.forEach(element => {
             const text = element.getAttribute(`data-${lang}`);
             if (text) {
-                if (element.tagName === 'TITLE' || element.tagName === 'META') {
+                // For elements with only text content or simple structure
+                if (element.childNodes.length === 1 && element.childNodes[0].nodeType === 3) {
+                    // Only one text node child
+                    element.textContent = text;
+                } else if (element.children.length === 0) {
+                    // No child elements, only text
                     element.textContent = text;
                 } else {
-                    element.textContent = text;
+                    // Has child elements, replace only first text node
+                    const textNode = Array.from(element.childNodes).find(node => node.nodeType === 3 && node.textContent.trim());
+                    if (textNode) {
+                        textNode.textContent = text;
+                    } else {
+                        element.textContent = text;
+                    }
                 }
             }
         });
