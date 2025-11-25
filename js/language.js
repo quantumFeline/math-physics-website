@@ -1,54 +1,87 @@
-// Language Management System
 (function() {
     'use strict';
 
-    // Get saved language or default to Ukrainian
-    let currentLang = localStorage.getItem('selectedLanguage') || 'ua';
+    function setLanguagePreference(lang) {
+        try {
+            // Special handling for localhost
+            if (window.location.hostname === 'localhost') {
+                // Use a simple localStorage key for localhost
+                localStorage.setItem('selectedLanguage', lang);
 
-    // Initialize on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        initLanguage();
-        setupLanguageSwitcher();
-    });
+                // Set a cookie that works across localhost
+                document.cookie = `selectedLanguage=${lang}; path=/; SameSite=Strict; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+            } else {
+                // For actual domains
+                const domain = window.location.hostname
+                    .split('.')
+                    .slice(-2)
+                    .join('.');
 
-    function initLanguage() {
-        // Set initial language
-        setLanguage(currentLang);
-        updateActiveButton(currentLang);
+                // Store in localStorage with domain-specific key
+                localStorage.setItem(`selectedLanguage_${domain}`, lang);
+
+                // Set a domain-wide cookie
+                document.cookie = `selectedLanguage=${lang}; path=/; domain=.${domain}; SameSite=Strict; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+            }
+        } catch (error) {
+            console.error('Failed to save language preference:', error);
+        }
     }
 
-    function setupLanguageSwitcher() {
-        const langButtons = document.querySelectorAll('.lang-btn');
+    function getLanguagePreference() {
+        try {
+            let lang;
 
-        langButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const lang = this.getAttribute('data-lang');
-                setLanguage(lang);
-                updateActiveButton(lang);
-                // Save preference
-                localStorage.setItem('selectedLanguage', lang);
-            });
-        });
+            // Special handling for localhost
+            if (window.location.hostname === 'localhost') {
+                // Check localStorage first
+                lang = localStorage.getItem('selectedLanguage');
+
+                // If not in localStorage, check cookies
+                if (!lang) {
+                    const cookieMatch = document.cookie.match(`(^|;)\\s*selectedLanguage\\s*=\\s*([^;]*)`);
+                    lang = cookieMatch ? cookieMatch[2] : null;
+                }
+            } else {
+                // For actual domains
+                const domain = window.location.hostname
+                    .split('.')
+                    .slice(-2)
+                    .join('.');
+
+                // First, check localStorage with domain-specific key
+                lang = localStorage.getItem(`selectedLanguage_${domain}`);
+
+                // If not found in localStorage, check cookies
+                if (!lang) {
+                    const cookieMatch = document.cookie.match(`(^|;)\\s*selectedLanguage\\s*=\\s*([^;]*)`);
+                    lang = cookieMatch ? cookieMatch[2] : null;
+                }
+            }
+
+            // Fallback to browser language or default
+            return lang ||
+                   (navigator.language.startsWith('uk') ? 'ua' :
+                    navigator.language.startsWith('pl') ? 'pl' :
+                    'ua');
+        } catch (error) {
+            console.error('Failed to retrieve language preference:', error);
+            return 'ua';
+        }
     }
 
     function setLanguage(lang) {
-        currentLang = lang;
-
-        // Update all elements with data-ua and data-pl attributes
         const elements = document.querySelectorAll('[data-ua][data-pl]');
 
         elements.forEach(element => {
             const text = element.getAttribute(`data-${lang}`);
             if (text) {
-                // For elements with only text content or simple structure
+                // Comprehensive text replacement logic
                 if (element.childNodes.length === 1 && element.childNodes[0].nodeType === 3) {
-                    // Only one text node child
                     element.textContent = text;
                 } else if (element.children.length === 0) {
-                    // No child elements, only text
                     element.textContent = text;
                 } else {
-                    // Has child elements, replace only first text node
                     const textNode = Array.from(element.childNodes).find(node => node.nodeType === 3 && node.textContent.trim());
                     if (textNode) {
                         textNode.textContent = text;
@@ -66,14 +99,45 @@
     function updateActiveButton(lang) {
         const langButtons = document.querySelectorAll('.lang-btn');
         langButtons.forEach(button => {
-            if (button.getAttribute('data-lang') === lang) {
-                button.classList.add('active');
-            } else {
-                button.classList.remove('active');
-            }
+            button.classList.toggle('active', button.getAttribute('data-lang') === lang);
         });
     }
 
-    // Expose setLanguage globally if needed
-    window.setLanguage = setLanguage;
+    function setupLanguageSwitcher() {
+        const langButtons = document.querySelectorAll('.lang-btn');
+
+        langButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+
+                // Set language on current page
+                setLanguage(lang);
+
+                // Update active button state
+                updateActiveButton(lang);
+
+                // Save language preference across domain
+                setLanguagePreference(lang);
+            });
+        });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Retrieve saved language
+        const savedLanguage = getLanguagePreference();
+
+        // Set language
+        setLanguage(savedLanguage);
+
+        // Update active button
+        updateActiveButton(savedLanguage);
+
+        // Setup language switcher
+        setupLanguageSwitcher();
+    });
+
+    // Expose functions globally if needed
+     window.setLanguage = setLanguage;
+    window.setLanguagePreference = setLanguagePreference;
 })();
