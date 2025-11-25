@@ -11,7 +11,7 @@
     --accent-color: #ff6b9d;
     --text-color: #4a5568;
     --bg-color: #f7fafc;
-    --card-bg: #ffffff;
+    --card-bg: #faf8ff;
     --shadow: 0 4px 6px rgba(102, 126, 234, 0.15);
     --shadow-hover: 0 8px 16px rgba(118, 75, 162, 0.25);
     --border-radius: 12px;
@@ -111,6 +111,48 @@ body {
 .contact-icon svg {
     width: 24px;
     height: 24px;
+}
+
+/* Intro Section */
+.intro-section {
+    background: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.intro-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.intro-image {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: var(--border-radius);
+    transition: transform 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.intro-image:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+}
+
+.intro-text {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    line-height: 1.8;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* Navigation Grid */
@@ -333,6 +375,23 @@ body {
         font-size: 1.6rem;
     }
 
+    .intro-section {
+        padding: 30px 20px;
+    }
+
+    .intro-images {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .intro-image {
+        max-height: 200px;
+    }
+
+    .intro-text {
+        font-size: 1.1rem;
+    }
+
     .navigation-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 20px;
@@ -375,6 +434,22 @@ body {
     .main-header h1 {
         font-size: 1.5rem;
         margin-bottom: 20px;
+    }
+
+    .intro-section {
+        padding: 20px 15px;
+    }
+
+    .intro-images {
+        gap: 15px;
+    }
+
+    .intro-image {
+        max-height: 180px;
+    }
+
+    .intro-text {
+        font-size: 1rem;
     }
 
     .page-header {
