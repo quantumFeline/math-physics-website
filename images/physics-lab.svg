@@ -1,0 +1,17 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="physGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fa709a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fee140;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#physGrad)" rx="15"/>
+
+  <!-- Physics symbols -->
+  <text x="300" y="80" font-family="serif" font-size="48" fill="white" text-anchor="middle" font-weight="bold">E = mc²</text>
+  <text x="160" y="170" font-family="serif" font-size="36" fill="rgba(255,255,255,0.9)" text-anchor="middle">F = ma</text>
+  <text x="440" y="170" font-family="serif" font-size="36" fill="rgba(255,255,255,0.9)" text-anchor="middle">v = s/t</text>
+  <text x="300" y="250" font-family="serif" font-size="40" fill="white" text-anchor="middle">P = U·I</text>
+  <text x="180" y="330" font-family="serif" font-size="32" fill="rgba(255,255,255,0.85)" text-anchor="middle">W = F·d</text>
+  <text x="420" y="330" font-family="serif" font-size="32" fill="rgba(255,255,255,0.85)" text-anchor="middle">Q = m·c·ΔT</text>
+</svg>
